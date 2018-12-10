@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  const audioCtx = new AudioContext()
+  let osc
+
+  let sources = []
+
+  document.onkeydown = event => {
+    if(!sources[event.keyCode]) {
+      osc = audioCtx.createOscillator()
+      osc.frequency.setValueAtTime(1000, audioCtx.currentTime)
+      osc.connect(audioCtx.destination)
+      osc.start()
+
+      sources[event.keyCode] = {
+        osc
+      }
+    }
+  }
+
+  document.onkeyup = event => {
+    sources[event.keyCode].osc.stop()
+    delete sources[event.keyCode]
+  }
+
+</script>
+
+</html>
