@@ -8,81 +8,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
   <!-- <script src="main.js"></script> -->
+  <style>
+    #loadImage {
+      margin: 25px auto;
+    }
+  </style>
 </head>
 
 <body>
-  <input type="file" name="" id="plik">
-  <button id="start">show me</button>
+  
+  <div id="loadImage">
+    <h3>Load image</h3>
+    <input type="file" name="" id="plik">
+    <button id="start">Show me</button>
+  </div>
+
   <canvas class="ps" width="600" height="300"></canvas>
+  
   <div class="container">
-    <input type="range" min="0" max="100" value="0" id="slider1">
-    <span class="text">0</span>
+    <label for="ContrastSlider">Contrast (<span id="ContrastValue">0</span>)</label>
+    <br>
+    <input type="range" min="-100" max="100" value="0" id="ContrastSlider">
   </div>
+
+  <div class="container">
+    <label for="BrightnessSlider">Brightness (<span id="BrightnessValue">0</span>)</label>
+    <br>
+    <input type="range" min="-100" max="100" value="0" id="BrightnessSlider">
+  </div>
+  
   <!-- <div class="container">
-    <input type="range" min="1" max="100" value="50" id="">
-    <span class="text"></span>
-  </div>
-  <div class="container">
     <input type="range" min="1" max="100" value="50" id="">
     <span class="text"></span>
   </div> -->
 
-  <script>
-
-    const canv = /** @type {HTMLCanvasElement} */ (document.querySelector('.ps'))
-    const ctx = canv.getContext('2d')
-    let imgData = {}
-
-    let img = new Image()
-    img.src = './jesien.jpeg'
-
-    img.addEventListener('load', () => {
-      ctx.drawImage(img, 0, 0, canv.width, canv.height)
-      imgData = ctx.getImageData(0, 0, canv.width, canv.height)
-      ctx.filter = 'sepia(100%)'
-    })
-
-    let slider = document.querySelector('#slider1')
-    slider.addEventListener('change', (e) => document.querySelector('.text').innerHTML = slider.value )
-
-    document.querySelector('#start').addEventListener('click', contrast)
-
-    function contrast() {
-      
-
-      let imgData2 =  new ImageData(new Uint8ClampedArray(imgData.data), imgData.width, imgData.height)
-      let factor = slider.value
-      
-      if (factor >= 1) {
-        for (let i = 0; i < imgData2.data.length; i += 4) {
-        
-        imgData2.data[i] = Math.min(255, imgData.data[i] + factor)
-        imgData2.data[i + 1] = Math.min(255, imgData.data[i + 1] + factor)
-        imgData2.data[i + 2] = Math.min(255, imgData.data[i + 2] + factor)
-        
-      } 
-      
-      ctx.putImageData(imgData2, 0, 0)
-    } else {
-        ctx.putImageData(imgData, 0, 0)
-      }
-
-      // console.log(imgData)
-      // console.log(imgData2)
-      }
-
-
-    function saturation() {
-      // let imgData = ctx.getImageData(0, 0, canv.width, canv.height)
-
-      // for (let i = 0; i < imgData.data.length; i += 4) {
-
-      // }
-      ctx.filter = 'contrast(50%)';
-        console.log('clicked')
-    }
-
-  </script>
+<script src="./main.js"></script>
 </body>
 
 </html>
