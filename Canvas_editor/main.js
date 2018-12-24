@@ -8,6 +8,7 @@ let mousePoz = {
   x: 0,
   y: 0
 }
+
 let mousePozPrv = {
   x: 0,
   y: 0
@@ -30,20 +31,20 @@ img.addEventListener('load', () => {
 })
 
 contrastSlider.addEventListener('change', (e) => {
-  contrast(parseInt(contrastSlider.value));
+  contrast( parseInt(contrastSlider.value) );
   
   document.querySelector('#ContrastValue').innerHTML = contrastSlider.value
-}
-)
+})
 
 brightnessSlider.addEventListener('input', (e) => {
-  brightness(parseInt(brightnessSlider.value))
+  brightness( parseInt(brightnessSlider.value) )
   
   document.querySelector('#BrightnessValue').innerHTML = brightnessSlider.value
-}
-)
+})
 
-document.querySelector('#start').addEventListener('click', contrast)
+document.querySelector('#restart').addEventListener('click', () => ctx.putImageData(imgData, 0, 0))
+
+document.querySelector('#download').addEventListener('click', () => downloadCanvas())
 
 canv.addEventListener("mousedown", e => onMouseDown(e));
 document.addEventListener("mouseup", e => onMouseUp(e));
@@ -51,16 +52,6 @@ canv.addEventListener("mouseenter", e => onMouseEnter(e));
 canv.addEventListener("mouseleave", e => onMouseLeave(e));
 canv.addEventListener("mousemove", e => onMouseMove(e));
 
-// function rysuj() {
-//   let ctx = this.canvas.getContext("2d");
-//   let randomX = Math.floor(Math.random() * this.canvas.width - 5);
-//   let randomY = Math.floor(Math.random() * this.canvas.height - 5);
-  
-//   ctx.fillStyle = this.color;
-//   ctx.beginPath();
-//   ctx.arc(randomX, randomY, 5, 0, 2 * Math.PI, false);
-//   ctx.fill();
-// }
 
 function onMouseDown(e) {
   let rect = e.target.getBoundingClientRect();
@@ -97,6 +88,12 @@ function onMouseMove(e) {
     ctx.stroke();
   }
 }
+
+function downloadCanvas() {
+  document.querySelector('#download').setAttribute('href', canv.toDataURL("image/png").replace("image/png", "image/octet-stream"))
+}
+
+
 
 function contrast(value) {
   

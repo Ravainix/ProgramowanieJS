@@ -6,35 +6,47 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
   <!-- <script src="main.js"></script> -->
-  <style>
-    #loadImage {
-      margin: 25px auto;
-    }
-  </style>
 </head>
 
 <body>
   
-  <div id="loadImage">
-    <h3>Load image</h3>
-    <input type="file" name="" id="plik">
-    <button id="start">Show me</button>
-  </div>
+  <div class="container">
+    <div id="loadImage" class="">
+      <!-- <h3>Load image</h3> -->
 
-  <canvas class="ps" width="600" height="300"></canvas>
+      <!-- <label for="file">Choose a file</label> -->
+      <!-- <input class="" type="file" name="file" id="plik"> -->
+
+      
+    </div>
   
-  <div class="container">
-    <label for="ContrastSlider">Contrast (<span id="ContrastValue">0</span>)</label>
-    <br>
-    <input type="range" min="-100" max="100" value="0" id="ContrastSlider">
-  </div>
+    <canvas class="ps" width="600" height="300"></canvas>
+  
+    <div id="kit">
+      <div class="color green"></div>
+      <div class="color blue"></div>
+      <div class="color white"></div>
+      <div class="color black"></div>
+    </div>
+    
+    <button id="restart" class="btn">Reset Image</button>
+    
+    <a id="download" href="">
+      <button id="" class="btn">Download Image</button>
+    </a>
 
-  <div class="container">
-    <label for="BrightnessSlider">Brightness (<span id="BrightnessValue">0</span>)</label>
-    <br>
-    <input type="range" min="-100" max="100" value="0" id="BrightnessSlider">
+    <div class="wrapper">
+      <label for="ContrastSlider">Contrast (<span id="ContrastValue">0</span>): </label>
+      <!-- <br> -->
+      <input type="range" min="-100" max="100" value="0" id="ContrastSlider">
+    </div>
+  
+    <div class="wrapper">
+      <label for="BrightnessSlider">Brightness (<span id="BrightnessValue">0</span>): </label>
+      <input type="range" min="-100" max="100" value="0" id="BrightnessSlider">
+    </div>
   </div>
   
   <!-- <div class="container">
