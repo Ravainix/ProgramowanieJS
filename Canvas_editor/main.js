@@ -62,7 +62,7 @@ brightnessSlider.addEventListener("input", e => {
 
 document
   .querySelector("#restart")
-  .addEventListener("click", () => ctx.putImageData(imgData, 0, 0));
+  .addEventListener("click", () => resetCanvas());
 
 document
   .querySelector("#download")
@@ -73,6 +73,13 @@ document.addEventListener("mouseup", e => onMouseUp(e));
 canv.addEventListener("mouseenter", e => onMouseEnter(e));
 canv.addEventListener("mouseleave", e => onMouseLeave(e));
 canv.addEventListener("mousemove", e => onMouseMove(e));
+
+function resetCanvas() {
+  ctx.putImageData(imgData, 0, 0);
+
+  contrastSlider.value = 0;
+  brightnessSlider.value = 0;
+}
 
 function onMouseDown(e) {
   let rect = e.target.getBoundingClientRect();
@@ -129,10 +136,6 @@ function createPalete(paleteArr) {
 
     document.querySelector("#kit").appendChild(newColor);
   });
-}
-
-function changeColor(event) {
-  drawingOpt.color = event.target.style.backgroundColor;
 
   let colorArr = document.querySelectorAll(".btn-color");
   colorArr.forEach(el => {
@@ -141,6 +144,10 @@ function changeColor(event) {
       e.target.classList.toggle("color-selected");
     });
   });
+}
+
+function changeColor(event) {
+  drawingOpt.color = event.target.style.backgroundColor;
 }
 
 function changeThickness(event) {
