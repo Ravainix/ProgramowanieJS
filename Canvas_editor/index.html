@@ -7,7 +7,6 @@
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-  <!-- <script src="main.js"></script> -->
 </head>
 
 <body>
@@ -25,21 +24,26 @@
     <canvas class="ps" width="600" height="300"></canvas>
   
     <div id="kit">
-      <div class="color green"></div>
-      <div class="color blue"></div>
-      <div class="color white"></div>
-      <div class="color black"></div>
+      <select id="lineWidth">
+        <option value="">Select thickness</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="8">8</option>
+        <option value="16">16</option>
+      </select>
     </div>
     
-    <button id="restart" class="btn">Reset Image</button>
-    
-    <a id="download" href="">
-      <button id="" class="btn">Download Image</button>
-    </a>
+    <div class="wrapper">
+      <button id="restart" class="btn">Reset Image</button>
+      
+      <a id="download" href="">
+        <button id="" class="btn">Download Image</button>
+      </a>
+    </div>
 
     <div class="wrapper">
       <label for="ContrastSlider">Contrast (<span id="ContrastValue">0</span>): </label>
-      <!-- <br> -->
       <input type="range" min="-100" max="100" value="0" id="ContrastSlider">
     </div>
   
@@ -49,11 +53,6 @@
     </div>
   </div>
   
-  <!-- <div class="container">
-    <input type="range" min="1" max="100" value="50" id="">
-    <span class="text"></span>
-  </div> -->
-
 <script src="./main.js"></script>
 </body>
 
