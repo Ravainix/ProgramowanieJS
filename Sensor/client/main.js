@@ -1,5 +1,11 @@
 const canv = /** @type {HTMLCanvasElement} */ document.querySelector("canvas");
 const ctx = canv.getContext("2d");
+const socket = io();
+
+socket.on('orientation', function(obj){
+  orientationChange(obj)
+  console.log(obj)
+})
 
 let anim;
 let orientation;
@@ -19,7 +25,7 @@ function setup() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, width, height);
 
-  moveBall(orientationChange);
+  moveBall();
   drawBall(ball.x, ball.y, ball.radius, "red");
 
   anim = requestAnimationFrame(setup);
@@ -39,35 +45,35 @@ function moveBall() {
   if (orientation === undefined) return;
 
 
-  ball.y = height * orientation.y / 180 - 10
-  ball.x = width * orientation.x / 180 - 10
+  // ball.y = height * orientation.y / 180 - 10
+  // ball.x = width * orientation.x / 180 - 10
 
-  console.log(ball.x)
+  // console.log(ball.x)
 
-  // if (orientation.x > 0 && ball.x <= width - 10) ball.x += 1
+  if (orientation.x > 0 && ball.x <= width - 10) ball.x += 1
   
-  // if (orientation.x < 0 && ball.x >= 0 + 10) ball.x = ball.x - 1;
+  if (orientation.x < 0 && ball.x >= 0 + 10) ball.x = ball.x - 1;
 
-  // if (orientation.y > 90 && ball.y <= height - 10) ball.y = (height * orientation.y) - 10 //-= 1;
+  if (orientation.y > 90 && ball.y <= height - 10) ball.y = (height * orientation.y) - 10 //-= 1;
 
-  // if (orientation.y < 90 && ball.y >= 0 + 10) ball.y += 1;
+  if (orientation.y < 90 && ball.y >= 0 + 10) ball.y += 1;
 }
 
 
-function orientationChange(e) {
+function orientationChange(obj) {
   orientation = {
-    x: event.gamma,
-    y: event.beta,
-    z: event.alpha
+    x: obj.x,
+    y: obj.y,
+    z: obj.z
   };
-  // console.log(orientation);
+  console.log(orientation);
   //return orientation;
 }
 
 anim = requestAnimationFrame(setup);
 
-window
-  .addEventListener("deviceorientation", orientationChange);
+// window
+//   .addEventListener("deviceorientation", orientationChange);
 
 document
   .querySelector("#stop")
