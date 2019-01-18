@@ -1,4 +1,5 @@
-// Objects
+// ---------------------------- OBJECTS ---------------------------
+
 class Background {
   draw() {
     ctx.clearRect(0, 0, canv.width, canv.height);
@@ -62,8 +63,8 @@ class Rect {
 
   draw () {
       ctx.beginPath();
-      ctx.fillRect(this.x, this.y, this.width, this.height)
       ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.height)
       ctx.fill();
       ctx.closePath();
     }
@@ -73,8 +74,29 @@ class Rect {
     }
 }
 
+class Timer {
+  constructor(date, x, y, color){
+    this.date = date
+    this.x = x
+    this.y = y
+    this.color = color
+  }
 
-// --------------------------------------
+  draw () {
+    let time = (Date.now() - this.date) / 1000
+    
+    ctx.font = '50px serif'
+    ctx.textAlign = "center"
+    ctx.fillStyle = this.color
+    ctx.fillText(time.toFixed(2), this.x, this.y)
+  }
+
+  update() {
+    this.draw()
+  }
+}
+
+// ---------------------------- VARIABLES ---------------------------- 
 
 const canv = /** @type {HTMLCanvasElement} */ document.querySelector("canvas");
 const ctx = canv.getContext("2d");
@@ -85,6 +107,14 @@ let orientation;
 
 let ball;
 let background;
+let timer;
+let walls = [];
+
+const space = 10 //space beetwen object
+let holeW = 30
+let holeH = 30
+
+let time
 
 
 // Sockets
@@ -101,11 +131,21 @@ function orientationChange(obj) {
   };
 }
 
-// Canvas
+// ---------------------------- CANVAS ---------------------------
 
 function init() {
   ball = new Ball(canv.width / 2 - 5, canv.height / 2 - 5, 15, "red", 0.02);
   background = new Background();
+
+  time = Date.now()
+  timer = new Timer(time, canv.width/2, 50, "white")
+
+  walls.push(new Rect(space, space, holeW, holeH, "white"))
+  walls.push(new Rect(canv.width - holeW - space, space, holeW, holeH, "white"))
+
+  walls.push(new Rect(canv.width - holeW - space, canv.height - holeH - space, holeW, holeH, "white"))
+  walls.push(new Rect(10, canv.height - holeH - space, holeW, holeH, "white"))
+
 }
 
 function animate () {
@@ -113,7 +153,13 @@ function animate () {
   ctx.clearRect(0, 0, canv.width, canv.height)
 
   background.update()
+
+  walls.forEach(wall => {
+    wall.update()
+  });
+
   ball.update()
+  timer.update()
 }
 
 document
