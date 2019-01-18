@@ -1,84 +1,129 @@
+// Objects
+class Background {
+  draw() {
+    ctx.clearRect(0, 0, canv.width, canv.height);
+    
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canv.width, canv.height);
+  }
+  update() {
+    this.draw();
+  }
+}
+
+class Ball {
+  constructor(x, y, radius, color, velocity) {
+    this.x = x
+    this.y = y
+    this.radius = radius
+    this.color = color
+    this.velocity = velocity
+  }
+
+  draw() {
+    ctx.beginPath();
+    
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+
+    ctx.closePath();
+  }
+  
+  update() {
+    this.move();
+    this.draw();
+  }
+
+  move() {
+    if (orientation === undefined) return;
+
+    this.x += orientation.x * this.velocity
+    this.y += orientation.y * this.velocity
+
+    if(this.x < 0 + this.radius) this.x = 0 + this.radius
+
+    if(this.x > canv.width - this.radius) this.x = canv.width - this.radius
+
+    if(this.y > canv.height - this.radius) this.y = canv.height - this.radius
+
+    if(this.y < 0 + this.radius) this.y = 0 + this.radius
+  }
+}
+
+class Rect {
+  constructor(x, y, width, height, color) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+  }
+
+  draw () {
+      ctx.beginPath();
+      ctx.fillRect(this.x, this.y, this.width, this.height)
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.closePath();
+    }
+
+  update () {
+      this.draw();
+    }
+}
+
+
+// --------------------------------------
+
 const canv = /** @type {HTMLCanvasElement} */ document.querySelector("canvas");
 const ctx = canv.getContext("2d");
 const socket = io();
 
-socket.on('orientation', function(obj){
-  orientationChange(obj)
-  console.log(obj)
-})
-
 let anim;
 let orientation;
 
-const height = canv.height
-const width = canv.width
-
-let ball = {
-  x: canv.width / 2 - 5,
-  y: canv.height / 2 - 5,
-  radius: 10
-};
+let ball;
+let background;
 
 
+// Sockets
 
-function setup() {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, width, height);
-
-  moveBall();
-  drawBall(ball.x, ball.y, ball.radius, "red");
-
-  anim = requestAnimationFrame(setup);
-}
-
-function drawBall(x, y, radius, color) {
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, 2 * Math.PI);
-  ctx.fillStyle = color;
-  // ctx.strokeStyle = 'white'
-  // ctx.stroke()
-  ctx.fill();
-  ctx.closePath();
-}
-
-function moveBall() {
-  if (orientation === undefined) return;
-
-
-  // ball.y = height * orientation.y / 180 - 10
-  // ball.x = width * orientation.x / 180 - 10
-
-  // console.log(ball.x)
-
-  if (orientation.x > 0 && ball.x <= width - 10) ball.x += 1
-  
-  if (orientation.x < 0 && ball.x >= 0 + 10) ball.x = ball.x - 1;
-
-  if (orientation.y > 90 && ball.y <= height - 10) ball.y = (height * orientation.y) - 10 //-= 1;
-
-  if (orientation.y < 90 && ball.y >= 0 + 10) ball.y += 1;
-}
-
+socket.on('orientation', function(obj){
+  orientationChange(obj)
+})
 
 function orientationChange(obj) {
   orientation = {
     x: obj.x,
-    y: obj.y,
-    z: obj.z
+    y: obj.y
+  //  z: obj.z
   };
-  console.log(orientation);
-  //return orientation;
 }
 
-anim = requestAnimationFrame(setup);
+// Canvas
 
-// window
-//   .addEventListener("deviceorientation", orientationChange);
+function init() {
+  ball = new Ball(canv.width / 2 - 5, canv.height / 2 - 5, 15, "red", 0.02);
+  background = new Background();
+}
+
+function animate () {
+  anim = requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canv.width, canv.height)
+
+  background.update()
+  ball.update()
+}
 
 document
-  .querySelector("#stop")
-  .addEventListener("click", () => cancelAnimationFrame(anim));
+.querySelector("#stop")
+.addEventListener("click", () => cancelAnimationFrame(anim));
 
 document
-  .querySelector("#start")
-  .addEventListener("click", () => requestAnimationFrame(setup));
+.querySelector("#start")
+.addEventListener("click", () => requestAnimationFrame(animate));
+
+
+init()
+animate()
