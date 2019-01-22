@@ -1,3 +1,7 @@
+/* body {
+  background-color: #aaa;
+} */
+
 #plus {
   text-align: center;
   justify-content: center;
@@ -9,7 +13,7 @@
 
   background: rgba(0, 181, 204, 1);
   color: #fff;
-  border: 1px solid rgba(0, 181, 204, 1);
+  border: 0px solid rgba(0, 181, 204, 1);
   padding: 10px;
   border-radius: 50%;
   transition: all 0.1s ease-in;
@@ -26,19 +30,60 @@ background: rgba(129, 207, 224, 1);
 
 #notes {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%
+  /* grid-template-columns: 25% 25% 25% 25% */
 }
 
-.pin {
-  position: relative;
-  width: 10px;
-  left: 95%;
-  top: 5%;
+@media (max-width: 768px) {
+  #notes {
+    grid-template-columns: 50% 50%
+  }
+}
+
+@media (min-width: 769px) {
+  #notes {
+    grid-template-columns: 25% 25% 25% 25%
+  }
 }
 
 .note {
   padding: 10px;
   margin: 5px;
+  position: relative;
+}
+
+.shadowbox {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.pin {
+  position: absolute;
+  /* width: 10px; */
+  right: 5%;
+  top: 5%;
+  transform: rotate(45deg);
+  transition: all 0.2s linear;
+}
+
+.pin:hover {
+  transform: rotate(0);
+}
+
+.pinned {
+  transform: rotate(0);
+  color: blue;
+}
+
+.trash {
+  position: absolute;
+  /* width: 10px; */
+  right: 5%;
+  bottom: 5%;
+  transition: all 0.2s ease-in-out;
+
+}
+
+.trash:hover {
+  color: grey;
 }
 
 .modal {

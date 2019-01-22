@@ -4,70 +4,117 @@ class Note {
     this.title = title;
     this.content = content;
     this.color = color;
+    this.pin = false;
   }
 }
 
-// let notes = [
-//   new Note(new Date("08.01.2018").toLocaleString(), "Test1", "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, explicabo.", "red"),
-//   new Note(new Date("11.01.2012").toLocaleString(), "Test2", "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, explicabo.", "blue"),
-//   new Note(new Date("10.03.2017").toLocaleString(), "Test3", "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, explicabo.", "green"),
-//   new Note(new Date("01.02.2010").toLocaleString(), "Test4", "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, explicabo.", "aqua"),
-// ]
+// -------------------------------- EVENTS --------------------------------
 
-// localStorage.setItem('notes', JSON.stringify(notes))
+let notesList = clearArray(JSON.parse(localStorage.getItem("notes")));
 
-let notes = JSON.parse(localStorage.getItem("notes"));
+renderNotes();
 
-notes.forEach(note => {
-  showNote(note);
-  // note.show("#notes")
-});
-
-function showNote(note) {
+function showNote(note, index) {
   const d = document.querySelector("#notes");
 
-  d.innerHTML += `<div class="note" style="background-color: ${note.color}">
-                    <h2>${note.title}</h2>
-                    <p>${note.content}</p>
-                    <div>${note.date}</div>
+  d.innerHTML += `<div class="note shadowbox" data-index="${index}" style="background-color: ${note.color}">
+                    <div class="content">
+                      <h2>${note.title}</h2>
+                      <p>${note.content}</p>
+                      <div>${note.date}</div>
+                    </div>
+                    <div class="pin"><i class="fas fa-thumbtack"></i></div>
+                    <div class="trash"><i class="fas fa-trash"></i></div>
                   </div>`;
 }
 
-function saveNote(note) {
-  let notes = JSON.parse(localStorage.getItem("notes"))
-  console.log(notes)
-  notes.push(note) 
-
-  localStorage.setItem('notes', JSON.stringify(notes))
-  console.log("Note added");
-  
+function saveNoteToStorage(note) {
+  localStorage.setItem("notes", JSON.stringify(notesList));
+  console.log("Notes saved...");
 }
 
-document.querySelector("#close").addEventListener('click', e => {
-  const element = document.querySelector("#modal")
-  element.style.display = "none";
-  document.body.style.overflow = "auto"
-})
+function clearArray(array) {
+  return array.filter(el => el != null)
+    .sort(el => {
+      console.log(el.pin);
+      if (el.pin) return -1;
+      else return 1;
+    });
+}
 
-document.querySelector("#plus").addEventListener('click', e => {
-  const element = document.querySelector("#modal")
+function renderNotes() {
+  document.querySelector("#notes").innerHTML = "";
+  clearArray(notesList).forEach((note, index) => {
+    showNote(note, index);
+  });
+
+  [...document.querySelectorAll(".note")].forEach(el => {
+    el.querySelector(".pin").addEventListener("click", () => {
+      notesList[el.dataset.index].pin = !notesList[el.dataset.index].pin;
+
+      console.log(notesList[el.dataset.index].pin);
+    });
+
+    el.querySelector(".trash").addEventListener("click", function() {
+      console.log(el);
+
+      deleteNote(el);
+    });
+  });
+
+  console.log(notesList);
+}
+
+function deleteNote(note) {
+  delete notesList[note.dataset.index];
+
+  renderNotes();
+  saveNoteToStorage();
+}
+
+function addNoteToList(note) {
+  notesList.push(note);
+}
+
+// -------------------------------- EVENTS --------------------------------
+
+document.querySelector("#close").addEventListener("click", e => {
+  const element = document.querySelector("#modal");
+  element.style.display = "none";
+  document.body.style.overflow = "auto";
+});
+
+document.querySelector("#plus").addEventListener("click", e => {
+  const element = document.querySelector("#modal");
   element.style.display = "block";
-  document.body.style.overflow = "auto"
-})
+  document.body.style.overflow = "auto";
+});
+
+document.querySelectorAll(".pin").forEach(element => {
+  element.addEventListener("click", e => {
+    element.classList.toggle;
+  });
+});
 
 document.querySelector("form").addEventListener("submit", e => {
   e.preventDefault();
 
-  const form = document.forms[0]
+  const form = document.forms[0];
   const fd = new FormData(form);
-  let data = {}
+  let data = {};
 
   for (let [key, prop] of fd) {
     data[key] = prop;
   }
 
-  data.date = new Date().toLocaleString()
+  const note = new Note(
+    new Date().toLocaleString(),
+    data.title,
+    data.content,
+    data.color
+  );
 
-  saveNote(data)
-  showNote(data)
+  addNoteToList(note);
+  renderNotes();
+  saveNoteToStorage(note);
 });
