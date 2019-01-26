@@ -14,52 +14,46 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
   </head>
   <body>
-    <div id="plus"><i class="fas fa-plus fa-2x"></i></div>
+    <!-- <div id="plus"><i class="fas fa-plus"></i></div> -->
 
-    <div id="notes">
+    <div id="addNote" class="shadowbox">
+      <form>
+        <input class="noteTitle" type="text" name="title" id="" placeholder="Title" required/>
+        <textarea class="noteBody" type="login" name="content" placeholder="Take a note" required></textarea>
+        <div class="placeholder1">
+          <div>
+            <!-- <label for="color">Choose color</label>
+            <br> -->
+            <select name="color" id="">
+              <option value="white">Choose a color</option>
+              <option value="rgb(214, 69, 65)">Red</option>
+              <option value="rgb(107, 185, 240)">Blue</option>
+              <option value="rgb(63, 195, 128)">Green</option>
+              <option value="rgb(252, 185, 65)">Orange</option>
+            </select>
+          </div>
+  
+          <div>
+            <button type="submit">ADD</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+    <div id="notes-grid">
       <div class="note shadowbox">
         <div class="content">
           <h2>Title</h2>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, explicabo.</p>
-          <div>19.01.2019</div>
+          <div>19.01.2019 19:22:03</div>
         </div>
-        <div class="pin"><i class="fas fa-thumbtack"></i></div>
-        <div class="trash"><i class="fas fa-trash"></i></div>
-
+        <div class="placeholder2">
+          <div class="pin"><i class="fas fa-thumbtack"></i></div>
+          <div class="trash"><i class="fas fa-trash"></i></div>
+        </div>
       </div>
     </div>
-
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span id="close">&times;</span>
-        <h1 class="text-center">Project 1</h1>
-        <form>
-          <div>
-            <label for="title">Title</label> <br />
-            <input type="text" name="title" id="" required value="test"/>
-          </div>
-          <div>
-            <label for="content">Content</label> <br />
-            <textarea type="login" name="content" >some random text</textarea>
-          </div>
-          <div>
-            <label for="color">Choose color</label>
-            <select name="color" id="">
-              <option value="white">None</option>
-              <option value="red">Red</option>
-              <option value="blue">Blue</option>
-              <option value="green">Green</option>
-              <option value="aqua">Aqua</option>
-            </select>
-          </div>
-
-          <div>
-            <button type="submit">Save</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
     <script src="main.js"></script>
   </body>
 </html>
