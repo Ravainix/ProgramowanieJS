@@ -22,7 +22,7 @@ let notesList = []
 //console.log(notesList);
 
 /**
- * 
+ * Sets notes from localstorage to varriable and render them
  */
 function init () {
   notesList = getItemsFromStorage() //JSON.parse(localStorage.getItem("notes"));
@@ -37,6 +37,14 @@ function getItemsFromStorage() {
 }
 
 /**
+ * Saves array with notes to localstorage
+ */
+function saveNotesToStorage() {
+  localStorage.setItem("notes", JSON.stringify(sortArray(notesList)));
+  console.log("Notes saved...");
+}
+
+/**
  * Renders a note according to a defined template
  * @param {object} note - Rendered note
  */
@@ -47,21 +55,13 @@ function renderNote(note) {
                     <div class="content">
                       <div class="title">${note.title}</div>
                       <p>${note.content}</p>
-                      <div>${new Date(note.date).toLocaleString()}</div>
+                      <div class="date">${new Date(note.date).toLocaleString()}</div>
                     </div>
-                    <div class="placeholder2">
+                    <div class="note-menu">
                       <div class="pin"><i class="fas fa-thumbtack ${note.pin ? "pinned" : ""}"></i></div>
                       <div class="trash"><i class="fas fa-trash"></i></div>
                   </div>
                   </div>`;
-}
-
-/**
- * Saves array with notes to localstorage
- */
-function saveNoteToStorage() {
-  localStorage.setItem("notes", JSON.stringify(sortArray(notesList)));
-  console.log("Notes saved...");
 }
 
 /**
@@ -84,9 +84,9 @@ function sortArray(array) {
 /**
  * Renders saved notes in an array and adds, pin functions to them 
  */
-function renderNotes() {
+function renderNotes(notes = notesList) {
   document.querySelector("#notes-grid").innerHTML = "";
-  let sortedList = sortArray(notesList)
+  let sortedList = sortArray(notes)
   
   if(sortedList === null) return;
 
@@ -104,12 +104,11 @@ function renderNotes() {
     el.querySelector(".trash").addEventListener("click", function() {
        //console.log(el);
 
-      deleteNote(findIndex(el, notesList));
+      deleteNote(el);
     });
   });
 
-  //console.log(notesList);
-  console.log(sortedList);
+  //console.log(sortedList);
 }
 
 /**
@@ -117,17 +116,14 @@ function renderNotes() {
  * @param {object} note - Note to delete
  */
 function deleteNote(note) {
-  // delete clearArray(notesList).note.dataset.index;
+  let index = findIndex(note, notesList) //notesList.findIndex(el => el.id === note.dataset.id)
+  
+ note.remove()
+  
+  notesList.splice(index, 1)
 
-  //let index = findIndex(note, sortedList) //notesList.findIndex(el => el.id === note.dataset.id)
-  
-  //console.log(index);
-  
-  console.log(notesList.splice(note, 1));
-  
-
-  renderNotes();
-  //saveNoteToStorage();
+  //renderNotes();
+  saveNotesToStorage();
 }
 
 /**
@@ -147,19 +143,30 @@ function addNoteToList(note) {
   notesList.push(note);
 }
 
+function FilterObjects(array, value) {
+  return array.filter(el => {
+    return el.title.includes(value) 
+      || el.content.includes(value) 
+      || new Date(el.date).toString().includes(value)
+      || el.pin === (value.includes('pin') ? true : false)
+  })
+}
+
 // -------------------------------- EVENTS --------------------------------
 
-// document.querySelector("#close").addEventListener("click", e => {
-//   const element = document.querySelector("#modal");
-//   element.style.display = "none";
-//   document.body.style.overflow = "auto";
-// });
+document.querySelector('#search').addEventListener("keyup", function () {
+  renderNotes(FilterObjects(notesList, this.value));
+})
 
-// document.querySelector("#plus").addEventListener("click", e => {
-//   const element = document.querySelector("#modal");
-//   element.style.display = "block";
-//   document.body.style.overflow = "auto";
-// });
+document.querySelector('#clearNotes').addEventListener('click', () => {
+  console.log('Notes cleared...');
+  
+  if(confirm('Are you sure you want delete all notes?')){
+    localStorage.clear()
+    notesList = [];
+    renderNotes();
+  }
+})
 
 document.querySelector("form").addEventListener("submit", e => {
   e.preventDefault();
@@ -181,7 +188,10 @@ document.querySelector("form").addEventListener("submit", e => {
 
   addNoteToList(note);
   renderNotes();
-  saveNoteToStorage();
+  saveNotesToStorage();
+
+  document.querySelector('.noteTitle').value = ''
+  document.querySelector('.noteBody').value = ''
 });
 
 init();
