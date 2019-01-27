@@ -14,46 +14,49 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
   </head>
   <body>
-    <!-- <div id="plus"><i class="fas fa-plus"></i></div> -->
+     <header>
+      <input id="search" type="text" value="" placeholder="Search note..."/>
+      <button id="clearNotes">CLEAR ALL NOTES</button>
+    </header>
 
-    <div id="addNote" class="shadowbox">
-      <form>
-        <input class="noteTitle" type="text" name="title" id="" placeholder="Title" required/>
-        <textarea class="noteBody" type="login" name="content" placeholder="Take a note" required></textarea>
-        <div class="placeholder1">
-          <div>
-            <!-- <label for="color">Choose color</label>
-            <br> -->
-            <select name="color" id="">
-              <option value="white">Choose a color</option>
-              <option value="rgb(214, 69, 65)">Red</option>
-              <option value="rgb(107, 185, 240)">Blue</option>
-              <option value="rgb(63, 195, 128)">Green</option>
-              <option value="rgb(252, 185, 65)">Orange</option>
-            </select>
+    <main>
+      <div id="addNote" class="shadowbox">
+        <form>
+          <input class="noteTitle" type="text" name="title" id="" placeholder="Title" required/>
+          <textarea class="noteBody" type="login" name="content" placeholder="Take a note" required></textarea>
+          <div class="placeholder1">
+            <div>
+              <select name="color" id="">
+                <option value="white">Choose a color</option>
+                <option value="rgb(214, 69, 65)">Red</option>
+                <option value="rgb(107, 185, 240)">Blue</option>
+                <option value="rgb(63, 195, 128)">Green</option>
+                <option value="rgb(252, 185, 65)">Orange</option>
+              </select>
+            </div>
+    
+            <div>
+              <button type="submit">ADD</button>
+            </div>
           </div>
+        </form>
   
-          <div>
-            <button type="submit">ADD</button>
-          </div>
-        </div>
-      </form>
-
-    </div>
-
-    <div id="notes-grid">
-      <div class="note shadowbox">
-        <div class="content">
-          <h2>Title</h2>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, explicabo.</p>
-          <div>19.01.2019 19:22:03</div>
-        </div>
-        <div class="placeholder2">
-          <div class="pin"><i class="fas fa-thumbtack"></i></div>
-          <div class="trash"><i class="fas fa-trash"></i></div>
-        </div>
       </div>
-    </div>
+  
+      <div id="notes-grid">
+        <!-- <div class="note shadowbox">
+          <div class="content">
+            <h2>Title</h2>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, explicabo.</p>
+            <div class="date">19.01.2019 19:22:03</div>
+          </div>
+          <div class="note-menu">
+            <div class="pin"><i class="fas fa-thumbtack"></i></div>
+            <div class="trash"><i class="fas fa-trash"></i></div>
+          </div>
+        </div> -->
+      </div>
+    </main>
     <script src="main.js"></script>
   </body>
 </html>
