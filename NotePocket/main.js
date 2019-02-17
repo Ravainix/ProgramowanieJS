@@ -81,9 +81,10 @@ function sortArray(array) {
   });
 }
 
-/**
- * Renders saved notes in an array and adds, pin functions to them 
- */
+ /**
+  * Renders saved notes in an array and adds, pin functions to them 
+  * @param {array} notes - List to render 
+  */
 function renderNotes(notes = notesList) {
   document.querySelector("#notes-grid").innerHTML = "";
   let sortedList = sortArray(notes)
