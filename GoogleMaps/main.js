@@ -1,6 +1,5 @@
 let uluru;
 let map;
-let marker;
 let markerPlace = false;
 let nick;
 let players = new Map()
@@ -63,6 +62,7 @@ function geoOk(data) {
  */
 function geoFail(err) {
   console.log(err);
+  alert('Can not get your localisation 😕')
 }
 
 /**
@@ -163,6 +163,10 @@ socket.on('message', data => {
   addMessageToChat(strTemplate);
 });
 
+/**
+ * Player disconnected handler
+ * Addes notification when player disconnected
+ */
 socket.on('player-disconnected', data => {
   const strTemplate = `
     <div class="msg communicat">
@@ -227,6 +231,8 @@ socket.on('delete-player', function(data) {
   players.get(data).setMap(null)
   players.delete(data)  
 })
+
+//------------------ Functions ------------------
 
 /**
  * Addes message to chat with given pattern

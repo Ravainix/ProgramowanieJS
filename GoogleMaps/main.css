@@ -54,7 +54,6 @@ html {
   bottom: 0;
   width: 100%;
   height: var(--input-height);
-  /* background-color: #f0f; */
   border-top: 1px solid #555;
   margin: 0;
   padding: 0;
