@@ -3,27 +3,44 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+const port = 3333
+const connectedSockets = new Map()
+
+
 io.on('connection', function(socket){
   
-  console.log('user connected');
-  socket.on('nick', msg => socket.broadcast.emit('message', {content: msg + ' connected'}))
+  console.log(`[${new Date().toLocaleTimeString()}] User connected ${socket.id}`)
+  
+  socket.on('player-connect', username => {
+    let time = new Date().toLocaleTimeString()
+    console.log(`[${time}] New player in chat...`)
+    
+    socket.broadcast.emit('new-player', username)
+    connectedSockets.set(socket.id, username)
+  })
 
  
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    let time = new Date().toLocaleTimeString()
+    console.log(`[${time}] User disconnected ${socket.id} ...`);
+    
+    io.emit('delete-player', socket.id)
+    io.emit('player-disconnected', connectedSockets.get(socket.id))
+    connectedSockets.delete(socket.id)
   });
 
   socket.on('message', function(msg) {
-    console.log('message: ' + msg);
+    let time = new Date().toLocaleTimeString()
+    console.log(`[${time}] ${socket.id} send message...`);
+    
     io.emit('message', msg);
   });
 
   socket.on('position', function(obj) {
     socket.broadcast.emit('position', obj);
-    console.log(obj)
   })
 });
 
-http.listen(3333, function(){
-  console.log('listening on *:3333');
+http.listen(port, function(){
+  console.log('listening on port ' + port);
 });
