@@ -8,16 +8,26 @@
 </head>
 <body>
 
-  <button id="rec">Nagrywaj</button>
-  <button id="play">Odtwarzaj</button>
+  <form id="playForm">
+    <div>
+        <button id="play">Odtwarzaj</button>
+      <input type="checkbox" name="channel" value="0">Channel 1</input>
+      <input type="checkbox" name="channel" value="1">Channel 2</input>
+      <input type="checkbox" name="channel" value="2">Channel 3</input>
+      <input type="checkbox" name="channel" value="3">Channel 4</input>
+    </div>
+  </form>
   <br>
   
-  <div>
-    <input type="radio" id="channel1">Channel 1</input>
-    <input type="radio" id="channel2">Channel 2</input>
-    <input type="radio" id="channel3">Channel 3</input>
-    <input type="radio" id="channel4">Channel 4</input>
-  </div>
+  <form id="recForm">
+    <div>
+        <button id="rec">Nagrywaj</button>
+      <input type="radio" id="channel1" name="channel" value="channel1" checked>Channel 1</input>
+      <input type="radio" id="channel2" name="channel" value="channel2">Channel 2</input>
+      <input type="radio" id="channel3" name="channel" value="channel3">Channel 3</input>
+      <input type="radio" id="channel4" name="channel" value="channel4">Channel 4</input>
+    </div>
+  </form>
 
   <audio src="./Sounds/clap.wav" id="clap" controls></audio>
   <audio src="./Sounds/hihat.wav" id="hihat" controls></audio>
