@@ -71,14 +71,21 @@ function playAudio() {
 }
 
 /**
- * 
+ * Odtwarza dzwieki przy nacisnieciu klawisza
  * @param {event} e - event funkcji
  */
-function Controller(e) {
+function soundController(e) {
   const soundName = sounds[e.keyCode];
 
   playSound(soundName);
 
+  recordSound();
+}
+
+/**
+ * Dodaje odtwarzny dzwiek do tablicy gdy nagrywnie jest wlaczone
+ */
+function recordSound () {
   if (isRecording) {
     switch (recordingChannel) {
       case "channel1":
